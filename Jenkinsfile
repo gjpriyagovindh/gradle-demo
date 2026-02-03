@@ -8,13 +8,20 @@ pipeline {
         }
         stage('Build & Test') {
             steps {
-                // This runs your verified gradle commands
-                sh './gradlew clean test jacocoTestReport'
+                // 'assemble' ensures the JAR file is created for archiving
+                sh './gradlew clean test jacocoTestReport assemble'
+            }
+        }
+        stage('SonarQube Analysis') {
+            steps {
+                // This name must match Jenkins -> Manage Jenkins -> System -> SonarQube installations
+                withSonarQubeEnv('My Sonar Server') {
+                    sh './gradlew sonar'
+                }
             }
         }
         stage('Archive Artifact') {
             steps {
-                // This saves the JAR file so you can download it from the UI
                 archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
             }
         }
