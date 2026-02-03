@@ -27,3 +27,15 @@ jacocoTestReport {
         html.required = true
     }
 }
+plugins {
+    id "org.sonarqube" version "4.4.1.3373"
+}
+
+sonar {
+    properties {
+        property "sonar.projectKey", "gradle-demo"
+        property "sonar.host.url", "http://localhost:9000" // Or your VM IP
+        property "sonar.login", "admin"
+        property "sonar.password", "admin" // Use your actual Sonar password
+    }
+}

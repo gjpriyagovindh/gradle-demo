@@ -8,16 +8,13 @@ pipeline {
         }
         stage('Build & Test') {
             steps {
-                // 'assemble' ensures the JAR file is created for archiving
                 sh './gradlew clean test jacocoTestReport assemble'
             }
         }
         stage('SonarQube Analysis') {
             steps {
-                // This name must match Jenkins -> Manage Jenkins -> System -> SonarQube installations
-                withSonarQubeEnv('My Sonar Server') {
-                    sh './gradlew sonar'
-                }
+                // We call sonar directly without the 'withSonarQubeEnv' wrapper
+                sh './gradlew sonar'
             }
         }
         stage('Archive Artifact') {
