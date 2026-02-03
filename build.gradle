@@ -4,38 +4,36 @@ plugins {
     id "org.sonarqube" version "4.4.1.3373"
 }
 
+group = 'com.bits.mvn'
+version = '1.0-SNAPSHOT'
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
     implementation 'org.apache.logging.log4j:log4j-api:2.20.0'
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
 }
 
 test {
     useJUnitPlatform()
-    finalizedBy jacocoTestReport
 }
 
 jacocoTestReport {
-    dependsOn test
     reports {
         xml.required = true
         html.required = true
     }
 }
-plugins {
-    id "org.sonarqube" version "4.4.1.3373"
-}
 
 sonar {
     properties {
         property "sonar.projectKey", "gradle-demo"
-        property "sonar.host.url", "http://localhost:9000" // Or your VM IP
+        property "sonar.host.url", "http://localhost:9000"
         property "sonar.login", "admin"
-        property "sonar.password", "admin" // Use your actual Sonar password
+        property "sonar.password", "admin"
     }
 }
